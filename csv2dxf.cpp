@@ -36,14 +36,16 @@ void process_line(size_t line_number, CValue *fields[])
         return;
     }
     // ========================================================================================= //
+    char fmt[10];
     char label[100];
+    sprintf(fmt, "%%.%df", options.round_digits);
     if(fields[4]->get_length())
     {
-        sprintf(label, "%s-%s-%s", fields[4]->text(), fields[3]->format("%.2f", 2), fields[0]->text());
+        sprintf(label, "%s-%s-%s", fields[4]->text(), fields[3]->format(fmt, options.round_digits), fields[0]->text());
     }
     else
     {
-        sprintf(label, "%s-%s", fields[3]->format("%.2f", 2), fields[0]->text());
+        sprintf(label, "%s-%s", fields[3]->format(fmt, options.round_digits), fields[0]->text());
     }
     printf("%s\n", label);
     double x = fields[2]->to_double(options.round_digits);
