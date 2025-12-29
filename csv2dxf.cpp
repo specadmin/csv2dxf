@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
+#include "fmt/core.h"           // https://github.com/fmtlib/fmt
 #include "dxflib/dl_dxf.h"
 #include "csv.h"                // https://github.com/rgamble/libcsv
 #include "cvalue.h"
@@ -42,10 +43,12 @@ void process_line(size_t line_number, CValue *fields[])
     char fmt[10];
     char label[100];
     char layer[100];
-    double x = fields[2]->to_double(options.round_digits);
-    double y = fields[1]->to_double(options.round_digits);
-    double z = fields[3]->to_double(options.round_digits);
-    char *code = fields[4]->text();
+
+    char *point_name =  fields[0]->text();
+    double N =          fields[1]->to_double(options.round_digits);
+    double E =          fields[2]->to_double(options.round_digits);
+    double Z =          fields[3]->to_double(options.round_digits);
+    char *code =        fields[4]->text();
 
     // create a point
     if(options.split_by_code)
@@ -64,17 +67,30 @@ void process_line(size_t line_number, CValue *fields[])
     {
         dxf.use_layer(LAYER_POINTS);
     }
-    dxf.add_point(x, y, z);
+    dxf.add_point(E, N, Z);
 
     // create a label
-    sprintf(fmt, "%%.%df", options.round_digits);
-    if(*code && !options.split_by_code)
+    if(options.custom_label)
     {
-        sprintf(label, "%s-%s-%s", code, fields[3]->format(fmt, options.round_digits), fields[0]->text());
+        std::string result = fmt::format(options.custom_label,
+                                        fmt::arg("p", std::string(point_name)),
+                                        fmt::arg("c", std::string(code)),
+                                        fmt::arg("n", N),
+                                        fmt::arg("e", E),
+                                        fmt::arg("z", Z));
+        strcpy(label, result.c_str());
     }
     else
     {
-        sprintf(label, "%s-%s", fields[3]->format(fmt, options.round_digits), fields[0]->text());
+        sprintf(fmt, "%%.%df", options.round_digits);
+        if(*code && !options.split_by_code)
+        {
+            sprintf(label, "%s %s %s", code, fields[3]->format(fmt, options.round_digits), point_name);
+        }
+        else
+        {
+            sprintf(label, "%s %s", fields[3]->format(fmt, options.round_digits), point_name);
+        }
     }
     printf("%s\n", label);
     if(options.split_labels)
@@ -96,9 +112,9 @@ void process_line(size_t line_number, CValue *fields[])
             dxf.use_layer(LAYER_LABELS);
         }
     }
-    dxf.add_label(x + options.labels_height / 2,
-                  y + options.labels_height / 4,
-                  z,
+    dxf.add_label(E + options.labels_height / 2,
+                  N + options.labels_height / 4,
+                  Z,
                   label);
 }
 //-------------------------------------------------------------------------------------------------

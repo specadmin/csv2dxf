@@ -8,6 +8,7 @@ struct COptions
 {
     char *csv_file_name = NULL;
     char *dxf_file_name = NULL;
+    char *custom_label = NULL;
     unsigned char csv_options = 0;
     int round_digits = 3;
     size_t skip_first_lines = 0;

@@ -12,7 +12,7 @@ Supports only the comma as a fields-separator and the following source file data
 N, E and Z values must be in meters. All the following fields are beeing ignored.
 
 ```
-Usage: csv2dxf [-KL] [-s skip_lines] [-r round_to_digits] {source_file} {destination_file}
+Usage: csv2dxf [-KL] [-s skip_lines] [-r round_to_digits] [-l label_template] {source_file} {destination_file}
 
 -K
     Split points by layers due to their codes.
@@ -34,4 +34,15 @@ Usage: csv2dxf [-KL] [-s skip_lines] [-r round_to_digits] {source_file} {destina
 -r round_to_digits
     Round coordinates and labels to round_to_digits decimal places.
     By default rounds to 3 decimal places (millimeters).
+
+-l label_templete
+    You can customize labels template with any symbols and the following point's parameters:
+    {p} - name;
+    {n} - N-coordinate;
+    {e} - E-coordinate;
+    {z} - Z-coordinate;
+    {c} - code
+    By default all labels use the following templates:
+        "{c} {z} {p}"  if -K was NOT specified
+        "{z} {p}"      if -K was specified
 ```

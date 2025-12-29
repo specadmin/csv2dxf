@@ -6,7 +6,7 @@ COptions options;
 //-------------------------------------------------------------------------------------------------
 static inline void print_usage()
 {
-    fprintf(stderr, "Usage: csv2dxf [-s skip_lines] [-r round_to_digits] source_file destination_file\n");
+    fprintf(stderr, "Usage: csv2dxf [-KL] [-s skip_lines] [-r round_to_digits] [-l label_template] {source_file} {destination_file}\n");
 }
 //-------------------------------------------------------------------------------------------------
 int cmd_options(int argc, char *argv[])
@@ -22,7 +22,7 @@ int cmd_options(int argc, char *argv[])
     options.dxf_version = DL_Codes::AC1009;
     int opt;
     char *endptr = NULL;
-    while((opt = getopt(argc, argv, "KLs:r:")) != -1)
+    while((opt = getopt(argc, argv, "KLs:r:l:")) != -1)
     {
         switch(opt)
         {
@@ -49,6 +49,9 @@ int cmd_options(int argc, char *argv[])
                     print_usage();
                     return 1;
                 }
+                break;
+            case 'l':
+                options.custom_label = optarg;
                 break;
         }
     }

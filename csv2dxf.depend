@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1767006949 source:/home/ton/csv2dxf/csv2dxf.cpp
+1767010719 source:/home/ton/csv2dxf/csv2dxf.cpp
 	<errno.h>
 	<stdlib.h>
 	<string.h>
+	"fmt/core.h"
 	"dxflib/dl_dxf.h"
 	"csv.h"
 	"cvalue.h"
@@ -19,11 +20,11 @@
 	<math.h>
 	"cvalue.h"
 
-1766947615 /home/ton/csv2dxf/options.h
+1767008038 /home/ton/csv2dxf/options.h
 	<stdlib.h>
 	"dxflib/dl_dxf.h"
 
-1766996246 source:/home/ton/csv2dxf/options.cpp
+1767008009 source:/home/ton/csv2dxf/options.cpp
 	<stdio.h>
 	<unistd.h>
 	"options.h"
