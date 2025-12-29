@@ -34,7 +34,7 @@ CValue& CValue::operator=(const CValue& rhs)
     return *this;
 }
 //-------------------------------------------------------------------------------------------------
-const char* CValue::text()
+char* CValue::text()
 {
     return _buf;
 }

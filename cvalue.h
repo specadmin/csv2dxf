@@ -7,10 +7,10 @@ class CValue
     public:
         CValue(const char *str);
         CValue(char *str, size_t len);
-        virtual ~CValue();
+        ~CValue();
         CValue(const CValue& other);
         CValue& operator=(const CValue& other);
-        const char* text();
+        char* text();
         const char* format(const char *fmt, int roundto = 0);
         size_t get_length();
         double to_double();

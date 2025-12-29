@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1766857395 source:/home/ton/csv2dxf/csv2dxf.cpp
+1767006949 source:/home/ton/csv2dxf/csv2dxf.cpp
 	<errno.h>
 	<stdlib.h>
 	<string.h>
@@ -9,32 +9,32 @@
 	"cdxfwriter.h"
 	"options.h"
 
-1766850838 /home/ton/csv2dxf/cvalue.h
+1766997267 /home/ton/csv2dxf/cvalue.h
 	<stddef.h>
 
-1766851077 source:/home/ton/csv2dxf/cvalue.cpp
+1766997272 source:/home/ton/csv2dxf/cvalue.cpp
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
 	<math.h>
 	"cvalue.h"
 
-1766857010 /home/ton/csv2dxf/options.h
+1766947615 /home/ton/csv2dxf/options.h
 	<stdlib.h>
 	"dxflib/dl_dxf.h"
 
-1766858317 source:/home/ton/csv2dxf/options.cpp
+1766996246 source:/home/ton/csv2dxf/options.cpp
 	<stdio.h>
 	<unistd.h>
 	"options.h"
 
-1766854600 source:/home/ton/csv2dxf/cdxfwriter.cpp
+1766999361 source:/home/ton/csv2dxf/cdxfwriter.cpp
 	<string.h>
 	<algorithm>
 	"cdxfwriter.h"
 	"options.h"
 
-1766854600 /home/ton/csv2dxf/cdxfwriter.h
+1766998802 /home/ton/csv2dxf/cdxfwriter.h
 	<stdlib.h>
 	"dxflib/dl_dxf.h"
 

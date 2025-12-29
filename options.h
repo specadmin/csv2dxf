@@ -14,6 +14,8 @@ struct COptions
     DL_Codes::version dxf_version;
     double labels_height = 0.5;
     double labels_width_scale = 0.9;
+    bool split_by_code = false;
+    bool split_labels = false;
     char labels_font[10] = "Arial";
 };
 //-------------------------------------------------------------------------------------------------

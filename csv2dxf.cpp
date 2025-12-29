@@ -10,6 +10,8 @@
 //-------------------------------------------------------------------------------------------------
 #define COLS_LIMIT      5
 #define MAX_FIELD_SIZE  20
+#define LAYER_POINTS    0
+#define LAYER_LABELS    1
 //-------------------------------------------------------------------------------------------------
 struct Meta
 {
@@ -36,22 +38,64 @@ void process_line(size_t line_number, CValue *fields[])
         return;
     }
     // ========================================================================================= //
+    static char nocode[] = "(none)";
     char fmt[10];
     char label[100];
-    sprintf(fmt, "%%.%df", options.round_digits);
-    if(fields[4]->get_length())
+    char layer[100];
+    double x = fields[2]->to_double(options.round_digits);
+    double y = fields[1]->to_double(options.round_digits);
+    double z = fields[3]->to_double(options.round_digits);
+    char *code = fields[4]->text();
+
+    // create a point
+    if(options.split_by_code)
     {
-        sprintf(label, "%s-%s-%s", fields[4]->text(), fields[3]->format(fmt, options.round_digits), fields[0]->text());
+        if(*code)
+        {
+            dxf.use_layer(dxf.upsert_layer(code));
+        }
+        else
+        {
+            dxf.use_layer(dxf.upsert_layer(nocode));
+        }
+
+    }
+    else
+    {
+        dxf.use_layer(LAYER_POINTS);
+    }
+    dxf.add_point(x, y, z);
+
+    // create a label
+    sprintf(fmt, "%%.%df", options.round_digits);
+    if(*code && !options.split_by_code)
+    {
+        sprintf(label, "%s-%s-%s", code, fields[3]->format(fmt, options.round_digits), fields[0]->text());
     }
     else
     {
         sprintf(label, "%s-%s", fields[3]->format(fmt, options.round_digits), fields[0]->text());
     }
     printf("%s\n", label);
-    double x = fields[2]->to_double(options.round_digits);
-    double y = fields[1]->to_double(options.round_digits);
-    double z = fields[3]->to_double(options.round_digits);
-    dxf.add_point(x, y, z);
+    if(options.split_labels)
+    {
+        if(options.split_by_code)
+        {
+            if(*code)
+            {
+                sprintf(layer, "%s-labels", code);
+            }
+            else
+            {
+                sprintf(layer, "%s-labels", nocode);
+            }
+            dxf.use_layer(dxf.upsert_layer(layer));
+        }
+        else
+        {
+            dxf.use_layer(LAYER_LABELS);
+        }
+    }
     dxf.add_label(x + options.labels_height / 2,
                   y + options.labels_height / 4,
                   z,
@@ -112,6 +156,16 @@ int main(int argc, char *argv[])
     }
     csv_set_term_func(&csv_parser, endline_detector);
     csv_set_delim(&csv_parser, ',');
+
+    // prepare default layers
+    if(options.split_by_code == false)
+    {
+        dxf.add_layer("points");
+        if(options.split_labels)
+        {
+            dxf.add_layer("labels");
+        }
+    }
 
     // main loop
     while((bytes_read = fread(buf, 1, sizeof(buf), csv_file)) > 0)

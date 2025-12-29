@@ -22,13 +22,18 @@ int cmd_options(int argc, char *argv[])
     options.dxf_version = DL_Codes::AC1009;
     int opt;
     char *endptr = NULL;
-    while((opt = getopt(argc, argv, "s:r:")) != -1)
+    while((opt = getopt(argc, argv, "KLs:r:")) != -1)
     {
         switch(opt)
         {
+            case 'K':
+                options.split_by_code = true;
+                break;
+            case 'L':
+                options.split_labels = true;
+                break;
             case 's':
                 options.skip_first_lines = strtol(optarg, &endptr, 10);
-                options.round_digits = strtol(optarg, &endptr, 10);
                 if(*endptr)
                 {
                     fprintf(stderr, "Invalid value for parameter -s\n");
@@ -47,9 +52,6 @@ int cmd_options(int argc, char *argv[])
                 break;
         }
     }
-
-
-
     return 0;
 }
 //-------------------------------------------------------------------------------------------------
