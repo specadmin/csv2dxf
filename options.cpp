@@ -13,7 +13,7 @@ int cmd_options(int argc, char *argv[])
 {
     if(argc < 3)
     {
-        fprintf(stderr, "ERROR! Not enough parameters\n");
+        fprintf(stderr, "Not enough parameters\n");
         print_usage();
         return 1;
     }
